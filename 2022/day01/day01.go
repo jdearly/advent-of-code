@@ -1,16 +1,34 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"math"
 	"os"
+	"strconv"
 )
 
 func main() {
-	dat, err := os.ReadFile("input.txt")
+	dat, err := os.Open("input.txt")
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Print(string(dat))
-	//TODO: the actual problem
+	defer dat.Close()
+
+	fs := bufio.NewScanner(dat)
+	fs.Split(bufio.ScanLines)
+
+	var curr = 0
+	var max = 0.0
+	for fs.Scan() {
+		if fs.Text() != "" {
+			val, _ := strconv.Atoi(fs.Text())
+			curr += val
+		} else {
+			max = math.Max(max, float64(curr))
+			curr = 0
+		}
+	}
+	fmt.Println(max)
 }
