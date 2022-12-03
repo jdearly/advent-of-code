@@ -3,19 +3,19 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
 
 func PartOne() {
+
 	rps_scores := map[string]int{"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
 	total_score := 0
-	// Rock beats scissors
-	// Paper beats rock
-	// Scissors beats paper
+
 	dat, err := os.Open("input.txt")
 	if err != nil {
-		panic("invalid input")
+		log.Fatal(err)
 	}
 
 	fs := bufio.NewScanner(dat)
