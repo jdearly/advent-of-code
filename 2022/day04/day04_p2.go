@@ -8,10 +8,12 @@ import (
 	"strings"
 )
 
-func PartOne(file string) {
+func PartTwo(file string) {
 	ans := 0
 
 	dat, err := os.Open(file)
+
+	defer dat.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -27,8 +29,7 @@ func PartOne(file string) {
 		first := convert(strings.Split(pairs[0], "-"))
 		second := convert(strings.Split(pairs[1], "-"))
 
-		if first[0] >= second[0] && first[1] <= second[1] ||
-			second[0] >= first[0] && second[1] <= first[1] {
+		if first[0] <= second[1] && second[0] <= first[1] {
 			ans++
 		}
 	}
