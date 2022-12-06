@@ -6,9 +6,48 @@ import (
 	"log"
 	"os"
 	"strconv"
-	"strings"
 	"unicode"
 )
+
+type set struct {
+	m map[rune]bool
+}
+
+func NewSet() *set {
+	s := &set{}
+	s.m = make(map[rune]bool)
+	return s
+}
+
+func (s *set) Add(v rune) {
+	s.m[v] = true
+}
+
+func Intersect(a, b *set) *set {
+	intersect := NewSet()
+	for k := range a.m {
+		if b.Contains(k) {
+			intersect.Add(k)
+		}
+	}
+	return intersect
+}
+
+func (s *set) Contains(v rune) bool {
+	if _, ok := s.m[v]; ok {
+		return true
+	}
+	return false
+}
+
+func strToSet(str string) *set {
+	s := NewSet()
+
+	for _, v := range str {
+		s.Add(v)
+	}
+	return s
+}
 
 func PartOne() {
 	dat, err := os.Open("input.txt")
@@ -22,18 +61,12 @@ func PartOne() {
 	total := 0
 	for fs.Scan() {
 		str := fs.Text()
-		first_half := str[:len(str)/2]
-		second_half := str[len(str)/2:]
+		first := strToSet(str[:len(str)/2])
+		second := strToSet(str[len(str)/2:])
 
-		intersect := map[rune]bool{}
+		intersect := Intersect(first, second)
 
-		for _, v := range first_half {
-			if strings.ContainsRune(second_half, v) {
-				intersect[v] = true
-			}
-		}
-
-		for k := range intersect {
+		for k := range intersect.m {
 			val, _ := strconv.Atoi(fmt.Sprintf("%d", k))
 			if unicode.IsLower(k) {
 				total += val - 96
