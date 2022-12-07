@@ -20,25 +20,25 @@ func PartTwo() {
 	fs.Split(bufio.ScanLines)
 
 	start := StartingStacks(fs)
-	moves := Moves(fs)
+	p2_moves := Moves(fs)
 
-	for _, move := range moves {
-		temp := stack{}
+	temp := []string{}
+	for _, move := range p2_moves {
 		for i := 0; i < move.n; i++ {
-			s, val, err := start[move.from].Pop()
-			start[move.from] = s
+			stk, val, err := start[move.from].Pop()
+			start[move.from] = stk
 			if err != nil {
 				log.Fatal(err)
 			}
-			temp = temp.Push(val)
+			temp = append(temp, val)
 		}
-		for temp != nil {
-			t, val, _ := temp.Pop()
-			temp = t
-			start[move.to] = start[move.to].Push(val)
+
+		for len(temp) > 0 {
+			v := temp[len(temp)-1]
+			temp = temp[:len(temp)-1]
+			start[move.to] = start[move.to].Push(v)
 		}
 		temp = nil
-		fmt.Println(start[move.to])
 	}
 
 	for _, s := range start {
