@@ -15,5 +15,5 @@ type file struct {
 
 func main() {
 	PartOne()
-	//PartTwo()
+	PartTwo()
 }

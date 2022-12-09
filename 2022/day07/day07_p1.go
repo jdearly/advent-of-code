@@ -32,7 +32,6 @@ func PartOne() {
 			continue
 		}
 
-		fmt.Println(stack)
 		if strings.HasPrefix(line, "$ cd") {
 			if line[5:] == ".." {
 				s := stack[len(stack)-1].size
