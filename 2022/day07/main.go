@@ -1,15 +1,7 @@
 package main
 
 type directory struct {
-	size     int
-	name     string
-	parent   *directory
-	children []directory
-	files    []file
-}
-
-type file struct {
-	size int32
+	size int
 	name string
 }
 
