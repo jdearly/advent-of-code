@@ -105,7 +105,7 @@ func TestTreeVisible(t *testing.T) {
 	})
 
 	t.Run("total count", func(t *testing.T) {
-		got := PartOne()
+		got := PartOne("test.txt")
 		want := 21
 
 		if got != want {

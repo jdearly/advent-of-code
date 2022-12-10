@@ -1,66 +1,8 @@
 package main
 
-func checkLeft(grid [][]int, i, j int) bool {
-	var ans bool
-	for col := 0; col < len(grid); col++ {
-		if col == j {
-			ans = true
-			break
-		}
-
-		if grid[i][col] >= grid[i][j] {
-			return false
-		}
-	}
-	return ans
-}
-
-func checkRight(grid [][]int, i, j int) bool {
-	var ans bool
-	for col := len(grid) - 1; col >= 0; col-- {
-		if col == j {
-			ans = true
-			break
-		}
-
-		if grid[i][col] >= grid[i][j] {
-			return false
-		}
-	}
-	return ans
-}
-
-func checkFromTop(grid [][]int, i, j int) bool {
-	var ans bool
-	for row := 0; row < len(grid); row++ {
-		if row == i {
-			ans = true
-			break
-		}
-		if grid[row][j] >= grid[i][j] {
-			return false
-		}
-	}
-	return ans
-}
-
-func checkFromBottom(grid [][]int, i, j int) bool {
-	var ans bool
-	for row := len(grid) - 1; row >= 0; row-- {
-		if row == i {
-			ans = true
-			break
-		}
-		if grid[row][j] >= grid[i][j] {
-			return false
-		}
-	}
-	return ans
-}
-
-func PartOne() int {
+func PartOne(file string) int {
 	ans := 0
-	grid := ParseGrid("input.txt")
+	grid := ParseGrid(file)
 
 	// For each tree, walk in from edge to check visibility from each
 	// direction.
