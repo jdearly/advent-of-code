@@ -4,5 +4,5 @@ import "fmt"
 
 func main() {
 	fmt.Println(PartOne("input.txt"))
-	//PartTwo()
+	fmt.Println(PartTwo("input.txt"))
 }

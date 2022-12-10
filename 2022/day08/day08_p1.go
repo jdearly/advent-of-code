@@ -8,7 +8,11 @@ func PartOne(file string) int {
 	// direction.
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid); j++ {
-			if checkLeft(grid, i, j) || checkRight(grid, i, j) || checkFromTop(grid, i, j) || checkFromBottom(grid, i, j) {
+			left, _ := checkLeft(grid, i, j)
+			right, _ := checkRight(grid, i, j)
+			top, _ := checkFromTop(grid, i, j)
+			bottom, _ := checkFromBottom(grid, i, j)
+			if left || right || top || bottom {
 				ans++
 			}
 		}
