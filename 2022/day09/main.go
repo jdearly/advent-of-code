@@ -20,7 +20,7 @@ func distance(head, tail point) float64 {
 }
 
 func main() {
-	dat, err := os.Open("test.txt")
+	dat, err := os.Open("input.txt")
 
 	if err != nil {
 		log.Fatal(err)

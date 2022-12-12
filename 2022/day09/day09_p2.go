@@ -12,16 +12,18 @@ func PartTwo(dat *os.File) {
 
 	fs := bufio.NewScanner(dat)
 
+	seen := map[point]bool{}
 	head := point{0, nil, nil, 0, 0}
 	curr := &head
 
-	for i := 1; i <= 9; i++ {
+	for i := 1; i < 10; i++ {
 		next := point{i, curr, nil, 0, 0}
 		curr.tail = &next
 		curr = &next
+		if i == 9 {
+			seen[*curr] = true
+		}
 	}
-
-	seen := map[point]bool{}
 
 	for fs.Scan() {
 		line := fs.Text()
@@ -42,41 +44,40 @@ func PartTwo(dat *os.File) {
 				head.x++
 			}
 
-			curr := head
-			for i := 0; i < 9; i++ {
-				if distance(curr, *curr.tail) > 1 {
-					if direction == "L" && curr.tail.y != curr.y {
-						curr.tail.y = curr.y
-						curr.tail.x--
-					} else if direction == "L" {
-						curr.tail.x--
-					}
-
-					if direction == "R" && curr.tail.y != curr.y {
-						curr.tail.y = curr.y
-						curr.tail.x++
-					} else if direction == "R" {
-						curr.tail.x++
-					}
-
-					if direction == "U" && curr.tail.x != curr.x {
-						curr.tail.x = curr.x
-						curr.tail.y++
-					} else if direction == "U" {
-						curr.tail.y++
-					}
-
-					if direction == "D" && curr.tail.x != curr.x {
-						curr.tail.x = curr.x
-						curr.tail.y--
-					} else if direction == "D" {
-						curr.tail.y--
+			knot := head
+			// this is all wrong..
+			for knot.tail != nil {
+				if distance(knot, *knot.tail) > 1 {
+					prev_x := knot.x
+					prev_y := knot.y
+					switch direction {
+					case "U":
+						if knot.x != knot.tail.x {
+							knot.tail.x = knot.x
+						}
+						prev_y, knot.tail.y = knot.tail.y, prev_y
+					case "D":
+						if knot.x != knot.tail.x {
+							knot.tail.x = knot.x
+						}
+						prev_y, knot.tail.y = knot.tail.y, prev_y
+					case "L":
+						if knot.y != knot.tail.y {
+							knot.tail.y = knot.y
+						}
+						prev_x, knot.tail.x = knot.tail.x, prev_x
+					case "R":
+						if knot.y != knot.tail.y {
+							knot.tail.y = knot.y
+						}
+						prev_x, knot.tail.x = knot.tail.x, prev_x
 					}
 				}
-				curr = *curr.tail
+				knot = *knot.tail
 			}
-			seen[curr] = true
-			//		fmt.Println(len(seen))
+			if knot.id == 9 {
+				seen[knot] = true
+			}
 		}
 	}
 	fmt.Println(len(seen))
