@@ -3,32 +3,22 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
-type point struct {
-	x int
-	y int
-}
-
-func distance(head, tail point) float64 {
-	d := math.Max(math.Abs(float64(head.x-tail.x)), math.Abs(float64(head.y-tail.y)))
-	return d
-}
-
 func PartOne(dat *os.File) {
 
 	fs := bufio.NewScanner(dat)
 
-	head := point{0, 0}
-	tail := point{0, 0}
+	head := point{0, nil, nil, 0, 0}
+	tail := point{1, &head, nil, 0, 0}
+	head.tail = &tail
 
 	seen := map[point]bool{}
 
-	seen[tail] = true
+	seen[*head.tail] = true
 
 	for fs.Scan() {
 		line := fs.Text()
@@ -48,36 +38,36 @@ func PartOne(dat *os.File) {
 			case "R":
 				head.x++
 			}
-			if distance(head, tail) >= 2 {
-				if direction == "L" && tail.y != head.y {
-					tail.y = head.y
-					tail.x--
+			if distance(head, *head.tail) >= 2 {
+				if direction == "L" && head.tail.y != head.y {
+					head.tail.y = head.y
+					head.tail.x--
 				} else if direction == "L" {
-					tail.x--
+					head.tail.x--
 				}
 
-				if direction == "R" && tail.y != head.y {
-					tail.y = head.y
-					tail.x++
+				if direction == "R" && head.tail.y != head.y {
+					head.tail.y = head.y
+					head.tail.x++
 				} else if direction == "R" {
-					tail.x++
+					head.tail.x++
 				}
 
-				if direction == "U" && tail.x != head.x {
-					tail.x = head.x
-					tail.y++
+				if direction == "U" && head.tail.x != head.x {
+					head.tail.x = head.x
+					head.tail.y++
 				} else if direction == "U" {
-					tail.y++
+					head.tail.y++
 				}
 
-				if direction == "D" && tail.x != head.x {
-					tail.x = head.x
-					tail.y--
+				if direction == "D" && head.tail.x != head.x {
+					head.tail.x = head.x
+					head.tail.y--
 				} else if direction == "D" {
-					tail.y--
+					head.tail.y--
 				}
 			}
-			seen[tail] = true
+			seen[*head.tail] = true
 		}
 	}
 
